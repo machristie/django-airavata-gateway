@@ -7,8 +7,18 @@ import logging
 logger = logging.getLogger(__name__)
 
 def home(request):
-    access_token = request.session['ACCESS_TOKEN']
-    if access_token:
-        return HttpResponse("access token {}, username {}".format(access_token, request.user.username))
+    if 'ACCESS_TOKEN' in request.session:
+        access_token = request.session['ACCESS_TOKEN']
+        userinfo = request.session['USERINFO']
+        return HttpResponse("""
+        <p>access token={}</p>
+        <p>Django username={}</p>
+        <p>userinfo: <pre>{}</pre></p>
+        """.format(access_token, request.user.username, userinfo))
     else:
-        return HttpResponse("Not logged in!")
+        return HttpResponse("""
+        <p>Not logged in!</p>
+        <p>
+            <a href="/auth/login">Login</a>
+        </p>
+        """)

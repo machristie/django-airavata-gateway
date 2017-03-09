@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 def start_login(request):
     client_id = settings.KEYCLOAK_CLIENT_ID
-    base_authorize_url = settingsKEYCLOAK_AUTHORIZE_URL
+    base_authorize_url = settings.KEYCLOAK_AUTHORIZE_URL
     oauth2_session = OAuth2Session(client_id, scope='openid', redirect_uri=request.build_absolute_uri(reverse('keycloak_auth_callback')))
     authorization_url, state = oauth2_session.authorization_url(base_authorize_url)
     logger.debug("authorization_url={}, state={}".format(authorization_url, state))

@@ -124,11 +124,11 @@ AUTHENTICATION_BACKENDS = [
     'django_keycloak_auth.backends.KeycloakBackend'
 ]
 
-KEYCLOAK_CLIENT_ID = 'fGwm3EW0EmaiV0jI6GBmmOiQ2Xca'
-KEYCLOAK_CLIENT_SECRET = 'fMLLvWH6YEHwgl4Nb0hHu9AC5Jwa'
-KEYCLOAK_AUTHORIZE_URL = 'https://localhost:9443/oauth2/authorize'
-KEYCLOAK_TOKEN_URL = 'https://localhost:9443/oauth2/token'
-KEYCLOAK_USERINFO_URL = 'https://localhost:9443/oauth2/userinfo?schema=openid'
+KEYCLOAK_CLIENT_ID = 'pga'
+KEYCLOAK_CLIENT_SECRET = '11c0f14f-f043-44e6-ade4-052602254081'
+KEYCLOAK_AUTHORIZE_URL = 'https://149.165.156.62:8443/auth/realms/airavata/protocol/openid-connect/auth'
+KEYCLOAK_TOKEN_URL = 'https://149.165.156.62:8443/auth/realms/airavata/protocol/openid-connect/token'
+KEYCLOAK_USERINFO_URL = 'https://149.165.156.62:8443/auth/realms/airavata/protocol/openid-connect/userinfo'
 KEYCLOAK_VERIFY_SSL = False
 
 LOGIN_URL = '/auth/login'

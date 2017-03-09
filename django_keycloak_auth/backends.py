@@ -28,13 +28,7 @@ class KeycloakBackend(object):
         access_token = token['access_token']
         userinfo = oauth2_session.get(userinfo_url).json()
         logger.debug("userinfo: {}".format(userinfo))
-        # TODO WSO2 IS userinfo only returns the 'sub' claim. Fixed in 5.3.0?
-        # See also: http://stackoverflow.com/q/41281292
-        # and: https://wso2.org/jira/browse/IDENTITY-4250
-        # TODO load user roles as well
-        sub_claim = userinfo['sub']
-        # For WSO2 IS sometimes the sub claim is in the form of 'username@tenant-id'
-        username = sub_claim.split('@')[0]
+        username = userinfo['preferred_username']
         try:
             user = User.objects.get(username=username)
         except User.DoesNotExist:
@@ -42,6 +36,7 @@ class KeycloakBackend(object):
             user.save()
         # Put access_token into session to be used for authenticating with API server
         request.session['ACCESS_TOKEN'] = access_token
+        request.session['USERINFO'] = userinfo
         return user
 
     def get_user(self, user_id):
