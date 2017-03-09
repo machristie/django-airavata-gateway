@@ -9,7 +9,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-class WSO2ISBackend(object):
+class KeycloakBackend(object):
     def authenticate(self, request=None):
         authorization_code_url=request.build_absolute_uri()
         redirect_url=request.build_absolute_uri(reverse('airavata_auth_callback'))
