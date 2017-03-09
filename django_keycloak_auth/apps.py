@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class DjangoAiravataAuthConfig(AppConfig):
-    name = 'django_airavata_auth'
+class DjangoKeycloakAuthConfig(AppConfig):
+    name = 'django_keycloak_auth'

@@ -37,8 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_airavata_auth',
-    'django_airavata_workspace',
+    'django_keycloak_auth',
 ]
 
 MIDDLEWARE = [
@@ -49,7 +48,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_airavata_auth.middleware.authz_token_middleware',
 ]
 
 ROOT_URLCONF = 'django_airavata_gateway.urls'
@@ -123,23 +121,23 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 AUTHENTICATION_BACKENDS = [
-    'django_airavata_auth.backends.WSO2ISBackend'
+    'django_keycloak_auth.backends.KeycloakBackend'
 ]
 
-WSO2IS_CLIENT_ID = 'fGwm3EW0EmaiV0jI6GBmmOiQ2Xca'
-WSO2IS_CLIENT_SECRET = 'fMLLvWH6YEHwgl4Nb0hHu9AC5Jwa'
-WSO2IS_AUTHORIZE_URL = 'https://localhost:9443/oauth2/authorize'
-WSO2IS_TOKEN_URL = 'https://localhost:9443/oauth2/token'
-WSO2IS_USERINFO_URL = 'https://localhost:9443/oauth2/userinfo?schema=openid'
-WSO2IS_VERIFY_SSL = False
+KEYCLOAK_CLIENT_ID = 'fGwm3EW0EmaiV0jI6GBmmOiQ2Xca'
+KEYCLOAK_CLIENT_SECRET = 'fMLLvWH6YEHwgl4Nb0hHu9AC5Jwa'
+KEYCLOAK_AUTHORIZE_URL = 'https://localhost:9443/oauth2/authorize'
+KEYCLOAK_TOKEN_URL = 'https://localhost:9443/oauth2/token'
+KEYCLOAK_USERINFO_URL = 'https://localhost:9443/oauth2/userinfo?schema=openid'
+KEYCLOAK_VERIFY_SSL = False
 
 LOGIN_URL = '/auth/login'
 LOGIN_REDIRECT_URL = '/'
 
-GATEWAY_ID = 'php_reference_gateway'
-AIRAVATA_API_HOST = 'localhost'
-AIRAVATA_API_PORT = 8930
-AIRAVATA_API_SECURE = False
+# GATEWAY_ID = 'php_reference_gateway'
+# AIRAVATA_API_HOST = 'localhost'
+# AIRAVATA_API_PORT = 8930
+# AIRAVATA_API_SECURE = False
 
 LOGGING = {
     'version': 1,
@@ -149,15 +147,11 @@ LOGGING = {
         },
     },
     'loggers': {
-        'django_airavata_auth': {
+        'django_keycloak_auth': {
             'handlers': ['console'],
             'level': 'DEBUG' if DEBUG else 'INFO'
         },
         'django_airavata_gateway': {
-            'handlers': ['console'],
-            'level': 'DEBUG' if DEBUG else 'INFO'
-        },
-        'django_airavata_workspace': {
             'handlers': ['console'],
             'level': 'DEBUG' if DEBUG else 'INFO'
         },

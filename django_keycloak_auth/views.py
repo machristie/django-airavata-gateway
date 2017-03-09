@@ -14,10 +14,10 @@ logger = logging.getLogger(__name__)
 # Create your views here.
 
 def start_login(request):
-    client_id = settings.WSO2IS_CLIENT_ID
-    base_authorize_url = settings.WSO2IS_AUTHORIZE_URL
-    wso2is = OAuth2Session(client_id, scope='openid', redirect_uri=request.build_absolute_uri(reverse('airavata_auth_callback')))
-    authorization_url, state = wso2is.authorization_url(base_authorize_url)
+    client_id = settings.KEYCLOAK_CLIENT_ID
+    base_authorize_url = settingsKEYCLOAK_AUTHORIZE_URL
+    oauth2_session = OAuth2Session(client_id, scope='openid', redirect_uri=request.build_absolute_uri(reverse('keycloak_auth_callback')))
+    authorization_url, state = oauth2_session.authorization_url(base_authorize_url)
     logger.debug("authorization_url={}, state={}".format(authorization_url, state))
     # Store state in session for later validation
     request.session['OAUTH2_STATE'] = state
@@ -34,9 +34,9 @@ def callback(request):
         return redirect(settings.LOGIN_REDIRECT_URL)
     except Exception as err:
         logger.exception("An error occurred while processing OAuth2 callback: {}".format(request.build_absolute_uri()))
-        return redirect(reverse('airavata_auth_error'))
+        return redirect(reverse('keycloak_auth_error'))
 
 def auth_error(request):
-    return render(request, 'django_airavata_auth/auth_error.html', {
+    return render(request, 'django_keycloak_auth/auth_error.html', {
         'login_url': settings.LOGIN_URL
     })

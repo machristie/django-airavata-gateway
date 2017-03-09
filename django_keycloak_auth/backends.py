@@ -12,21 +12,21 @@ logger = logging.getLogger(__name__)
 class KeycloakBackend(object):
     def authenticate(self, request=None):
         authorization_code_url=request.build_absolute_uri()
-        redirect_url=request.build_absolute_uri(reverse('airavata_auth_callback'))
-        client_id = settings.WSO2IS_CLIENT_ID
-        token_url = settings.WSO2IS_TOKEN_URL
-        userinfo_url = settings.WSO2IS_USERINFO_URL
-        client_secret = settings.WSO2IS_CLIENT_SECRET
-        verify_ssl = settings.WSO2IS_VERIFY_SSL
+        redirect_url=request.build_absolute_uri(reverse('keycloak_auth_callback'))
+        client_id = settings.KEYCLOAK_CLIENT_ID
+        token_url = settings.KEYCLOAK_TOKEN_URL
+        userinfo_url = settings.KEYCLOAK_USERINFO_URL
+        client_secret = settings.KEYCLOAK_CLIENT_SECRET
+        verify_ssl = settings.KEYCLOAK_VERIFY_SSL
         state = request.session['OAUTH2_STATE']
         logger.debug("state={}".format(state))
-        wso2is = OAuth2Session(client_id, scope='openid', redirect_uri=redirect_url, state=state)
-        token = wso2is.fetch_token(token_url, client_secret=client_secret,
+        oauth2_session = OAuth2Session(client_id, scope='openid', redirect_uri=redirect_url, state=state)
+        token = oauth2_session.fetch_token(token_url, client_secret=client_secret,
             authorization_response=authorization_code_url, verify=verify_ssl)
         # TODO validate the JWS signature
         logger.debug("token: {}".format(token))
         access_token = token['access_token']
-        userinfo = wso2is.get(userinfo_url).json()
+        userinfo = oauth2_session.get(userinfo_url).json()
         logger.debug("userinfo: {}".format(userinfo))
         # TODO WSO2 IS userinfo only returns the 'sub' claim. Fixed in 5.3.0?
         # See also: http://stackoverflow.com/q/41281292
